@@ -18,6 +18,8 @@ import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 
+import com.afollestad.materialdialogs.MaterialDialog;
+
 import permissions.dispatcher.NeedsPermission;
 import permissions.dispatcher.OnNeverAskAgain;
 import permissions.dispatcher.OnPermissionDenied;
@@ -79,6 +81,9 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         //MainActivityPermissionsDispatcher.openCameraWithCheck(this);
+        new MaterialDialog.Builder(this)
+                .progress(false,100)
+                .show();
     }
 
     @NeedsPermission(Manifest.permission.CAMERA)
