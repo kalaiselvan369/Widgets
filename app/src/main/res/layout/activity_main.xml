@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context="com.example.developer.apppermissions.MainActivity">
 
     <com.example.developer.apppermissions.CustomAutoCompleteTextView
         android:id="@+id/user_input"
-        android:imeOptions="actionSend"
-        android:textColor="@color/colorAccent"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:imeOptions="actionSend"
+        android:textColor="@color/colorAccent" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -25,10 +25,25 @@
 
     <ImageView
         android:id="@+id/color_icon"
-        android:src="@drawable/ic_android"
-        android:contentDescription="@null"
-        android:layout_gravity="center_horizontal"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:contentDescription="@null"
+        android:src="@drawable/ic_android" />
+
+    <ProgressBar
+        style="@style/MaterialProgress"
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:layout_margin="8dp"
+        android:max="100"
+        android:progress="20" />
+
+    <com.example.developer.apppermissions.PollResultBar
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp"
+        app:barColor="@color/colorAccent"
+        app:barThickness="10dp" />
 
 </LinearLayout>
