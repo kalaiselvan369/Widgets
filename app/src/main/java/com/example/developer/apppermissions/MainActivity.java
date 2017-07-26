@@ -17,8 +17,11 @@ import android.view.animation.OvershootInterpolator;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
+
+import java.util.TimeZone;
 
 import permissions.dispatcher.NeedsPermission;
 import permissions.dispatcher.OnNeverAskAgain;
@@ -36,27 +39,42 @@ public class MainActivity extends AppCompatActivity {
     ObjectAnimator colorAnimator;
     ArgbEvaluator colorEvaluator;
     AnimatorSet animatorSet;
+    TextView timeZoneView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        CustomAutoCompleteTextView autoCompleteTextView = (CustomAutoCompleteTextView) findViewById(R.id.user_input);
+        //MainActivityPermissionsDispatcher.openCameraWithCheck(this);
+        setUpBounceAnimator();
+        setUpAutoCompleteTextView();
+        //setUpMaterialProgress();
+        setUpTimeZone();
+    }
+
+    private void setUpTimeZone() {
+        timeZoneView = (TextView) findViewById(R.id.time_zone_text);
+        TimeZone timeZone = TimeZone.getDefault();
+        //timeZoneView.setText(tz.getDisplayName());
+        //timeZoneView.setText(String.valueOf(tz.getRawOffset()));
+        //timeZoneView.setText(String.valueOf(timeZone.getDisplayName(Locale.getDefault())));
+        //timeZoneView.setText(String.valueOf(timeZone.getID()));
+        timeZoneView.setText(String.valueOf(timeZone.getDisplayName(false, TimeZone.SHORT)));
+    }
+
+    private void setUpMaterialProgress() {
+        new MaterialDialog.Builder(this)
+                .progress(false, 100)
+                .show();
+    }
+
+    private void setUpBounceAnimator() {
         colorView = (ImageView) findViewById(R.id.color_icon);
         colorView.getDrawable().setColorFilter(STARTING_COLOR, PorterDuff.Mode.MULTIPLY);
         colorEvaluator = new ArgbEvaluator();
         animatorSet = new AnimatorSet();
         colorAnimator = ObjectAnimator.ofObject(colorView, "colorFilter", colorEvaluator, 0, 0);
-        autoCompleteTextView.setThreshold(2);
-        autoCompleteTextView.setTokenizer(new CustomTokenizer());
-        autoCompleteTextView.setLoading(new ProgressBar(this));
-        autoCompleteTextView.setAdapter(new CustomAutoCompleteAdapter(this));
-        autoCompleteTextView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-            }
-        });
         colorView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -80,10 +98,20 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
-        //MainActivityPermissionsDispatcher.openCameraWithCheck(this);
-        new MaterialDialog.Builder(this)
-                .progress(false,100)
-                .show();
+    }
+
+    private void setUpAutoCompleteTextView() {
+        CustomAutoCompleteTextView autoCompleteTextView = (CustomAutoCompleteTextView) findViewById(R.id.user_input);
+        autoCompleteTextView.setThreshold(2);
+        autoCompleteTextView.setTokenizer(new CustomTokenizer());
+        autoCompleteTextView.setLoading(new ProgressBar(this));
+        autoCompleteTextView.setAdapter(new CustomAutoCompleteAdapter(this));
+        autoCompleteTextView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+            }
+        });
     }
 
     @NeedsPermission(Manifest.permission.CAMERA)
@@ -129,5 +157,10 @@ public class MainActivity extends AppCompatActivity {
                 .setCancelable(false)
                 .setMessage(messageResId)
                 .show();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
     }
 }
