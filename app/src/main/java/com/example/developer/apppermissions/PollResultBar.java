@@ -61,7 +61,7 @@ public class PollResultBar extends ProgressBar {
 
     @Override
     protected synchronized void onDraw(Canvas canvas) {
-        int halfHeight = getHeight() / 2;
+        int halfHeight = getHeight() / 8;
         int progressEndX = (int) (getWidth() * progress / 100f);
         progressPaint.setStrokeWidth(barThickness);
         int color = barColor;
